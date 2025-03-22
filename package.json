@@ -1,0 +1,14 @@
+{
+    "name": "word-counter",
+    "workspaces": [
+        "frontend",
+        "backend"
+    ],
+    "scripts": {
+        "start": "concurrently \"npm start --prefix backend\" \"npm start --prefix frontend\"",
+        "install:all": "npm install && npm install --prefix backend && npm install --prefix frontend"
+    },
+    "dependencies": {
+        "concurrently": "^9.1.2"
+    }
+}
