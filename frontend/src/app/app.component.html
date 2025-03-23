@@ -1,13 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Counter</title>
+  </head>
+  <body class="bg-gray-100 p-4 font-poppins">
+    <div class="container mx-auto">
+      <!-- Navbar -->
+      <nav
+        class="bg-primary p-4 text-center text-white text-xl font-bold rounded-lg" 
+      >
+        Word Counter
+      </nav>
+
+      <!-- Main Content -->
+      <div class="grid lg:grid-cols-3 gap-4 mt-6">
+        <!-- Left Panel -->
+        <div class="hidden lg:block bg-white p-4 rounded-lg shadow">
+          <button class="btn btn-primary w-full mb-2">Copy</button>
+          <button class="btn btn-secondary w-full mb-2">Paste</button>
+          <button class="btn btn-error w-full">Clear</button>
+        </div>
+
+        <!-- Middle Panel -->
+        <div class="bg-white p-6 rounded-lg shadow flex flex-col items-center">
+          <h2 class="text-xl font-bold mb-2">Countdown Title</h2>
+          <textarea
+            type="text"
+            placeholder="Enter text here..."
+            class="input input-bordered w-full mb-4 h-64 "
+          ></textarea>
+          <div class="text-center">
+            <p>Words: <span id="wordCount">0</span></p>
+            <p>Sentences: <span id="sentenceCount">0</span></p>
+            <p>Characters: <span id="charCount">0</span></p>
+          </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="bg-white p-4 rounded-lg shadow">
+          <h3 class="text-lg font-bold">Notes</h3>
+          <ul id="notesList" class="mt-2 space-y-2">
+            <li
+              class="flex justify-between items-center bg-gray-200 p-2 rounded"
+            >
+              <span>Sample Note - 03/23/2025</span>
+              <button class="btn btn-sm btn-error">✖</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
