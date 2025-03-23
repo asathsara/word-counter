@@ -9,7 +9,7 @@
     <div class="container mx-auto">
       <!-- Navbar -->
       <nav
-        class="bg-primary p-4 text-center text-white text-xl font-bold rounded-lg" 
+        class="bg-sky-400 p-4 text-center text-white text-xl font-bold rounded-lg" 
       >
         Word Counter
       </nav>
@@ -18,9 +18,15 @@
       <div class="grid lg:grid-cols-3 gap-4 mt-6">
         <!-- Left Panel -->
         <div class="hidden lg:block bg-white p-4 rounded-lg shadow">
-          <button class="btn btn-primary w-full mb-2">Copy</button>
-          <button class="btn btn-secondary w-full mb-2">Paste</button>
-          <button class="btn btn-error w-full">Clear</button>
+            <button class="btn btn-soft btn-sky-400 w-full mb-2">
+            <fa-icon [icon]="faCopy"></fa-icon> Copy
+            </button>
+            <button class="btn btn-soft btn-sky-400 w-full mb-2">
+            <fa-icon [icon]="faPaste"></fa-icon> Paste
+            </button>
+            <button class="btn btn-soft btn-sky-400 w-full">
+            <fa-icon [icon]="faTrash"></fa-icon> Clear
+            </button>
         </div>
 
         <!-- Middle Panel -->
