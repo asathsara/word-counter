@@ -1,0 +1,8 @@
+<div class="p-4 bg-gray-50 rounded-lg  w-full flex justify-between items-start">
+    <div>
+        <h4 class="font-bold text-gray-700 text-lg">{{ note.title }}</h4>
+        <p class="text-sm text-gray-700 mt-2">{{ note.content }}</p>
+        <p class="text-xs text-gray-500 mt-2">Date: {{ note.date }}</p>
+    </div>
+    <button class="btn btn-sm btn-error ml-4 shadow-none" (click)="onDelete()">✖</button>
+</div>
