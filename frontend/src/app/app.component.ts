@@ -4,15 +4,16 @@ import { faCopy, faPaste, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NoteItemComponent } from "./components/note-item/note-item.component";
 import { Note } from './models/note.model';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [FontAwesomeModule, NoteItemComponent,CommonModule],
+  imports: [FontAwesomeModule, NoteItemComponent,CommonModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'frontend';
+  
   faCopy = faCopy;
   faPaste = faPaste;
   faTrash = faTrash;
@@ -25,5 +26,26 @@ export class AppComponent {
 
   removeNote(id: number) {
     this.notes = this.notes.filter(note => note.id !== id);
+  }
+
+  text: string = ''; // Stores user input
+  wordCount: number = 0;
+  sentenceCount: number = 0;
+  charCount: number = 0;
+
+  // Function to count words, sentences, and characters
+  updateCounts() {
+    this.charCount = this.text.length; // Character count
+    this.wordCount = this.text.trim().split(/\s+/).filter(word => word.length > 0).length; // Word count
+    this.sentenceCount = this.text.split(/[.!?]/).filter(sentence => sentence.trim().length > 0).length; // Sentence count
+  }
+
+  title: string = '';
+
+  saveTitle() {
+    if (this.title) {
+      console.log('Title saved:', this.title);
+      // You can add your save logic here (e.g., make an API call)
+    }
   }
 }

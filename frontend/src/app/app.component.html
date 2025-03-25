@@ -34,15 +34,26 @@
           class="bg-white p-6 rounded-lg shadow flex flex-col lg:col-span-3 col-span-1"
         >
           <!-- Title Input -->
-          <input
-            type="text"
-            placeholder="Enter Title..."
-            class="input w-full mb-4 p-3"
-          />
+          <div class="relative w-full">
+            <input
+              type="text"
+              [(ngModel)]="title"
+              placeholder="Enter Title..."
+              class="input w-full pr-16 p-3"
+            />
+            <button
+              [hidden]="!title"
+              (click)="saveTitle()"
+              class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded "
+            >
+              Save
+            </button>
+          </div>
+          
 
           <!-- Word, Sentence & Character Count -->
           <div
-            class="flex justify-between items-center bg-gray-100 p-3 rounded-lg mb-3"
+            class="flex justify-between items-center bg-gray-100 p-3 rounded-lg mb-3 mt-3"
           >
             <!-- Words Count -->
             <div class="flex flex-col items-center">
@@ -52,7 +63,7 @@
                 <span
                   id="wordCount"
                   class="text-gray-900 text-xl font-bold ml-2"
-                  >0</span
+                  >{{ wordCount }}</span
                 >
               </div>
             </div>
@@ -65,7 +76,7 @@
                 <span
                   id="sentenceCount"
                   class="text-gray-900 text-xl font-bold ml-2"
-                  >0</span
+                  >{{ sentenceCount }}</span
                 >
               </div>
             </div>
@@ -78,7 +89,7 @@
                 <span
                   id="charCount"
                   class="text-gray-900 text-xl font-bold ml-2"
-                  >0</span
+                  >{{ charCount }}</span
                 >
               </div>
             </div>
@@ -86,6 +97,8 @@
 
           <!-- Textarea -->
           <textarea
+            [(ngModel)]="text"
+            (input)="updateCounts()"
             placeholder="Enter text here..."
             class="input w-full h-64 p-3 text-wrap"
           ></textarea>
@@ -96,11 +109,13 @@
           <h3 class="text-lg font-bold">Notes</h3>
           <ul id="notesList" class="m-2 space-y-2">
             <li *ngFor="let note of notes" class="flex flex-col space-y-2">
-              <app-note-item [note]="note" (deleteNote)="removeNote($event)"></app-note-item>
+              <app-note-item
+                [note]="note"
+                (deleteNote)="removeNote($event)"
+              ></app-note-item>
             </li>
           </ul>
         </div>
-        
       </div>
     </div>
   </body>
