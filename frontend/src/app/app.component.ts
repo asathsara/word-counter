@@ -40,6 +40,30 @@ export class AppComponent {
     this.sentenceCount = this.text.split(/[.!?]/).filter(sentence => sentence.trim().length > 0).length; // Sentence count
   }
 
+  // Copy text
+  copyText() {
+    navigator.clipboard.writeText(this.text).then(() => {
+      alert('Text copied to clipboard!');
+    }).catch(err => console.error('Could not copy text: ', err));
+  }
+
+  // Paste text
+  async pasteText() {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      this.text += clipboardText; // Append the pasted text
+      this.updateCounts();
+    } catch (error) {
+      console.error('Failed to read clipboard: ', error);
+    }
+  }
+
+  // Clear text
+  clearText() {
+    this.text = '';
+    this.updateCounts();
+  }
+
   title: string = '';
 
   saveTitle() {
