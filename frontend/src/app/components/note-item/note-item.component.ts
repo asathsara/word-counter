@@ -7,10 +7,10 @@ import { Note } from '../../models/note.model';
   styleUrls: ['./note-item.component.css'],
 })
 export class NoteItemComponent {
-  @Input() note!: Note;  // Receive a full Note object
+  @Input() note!: Note; // Receive a full Note object
   @Output() deleteNote = new EventEmitter<number>(); // Emit the note ID
 
   onDelete() {
-    this.deleteNote.emit(this.note.id); // Emit the note's ID
+    this.deleteNote.emit(this.note._id); // Emit the note's ID
   }
 }

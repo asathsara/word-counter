@@ -1,32 +1,25 @@
 import { Component } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCopy, faPaste, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { NoteItemComponent } from "./components/note-item/note-item.component";
+import { NoteItemComponent } from './components/note-item/note-item.component';
 import { Note } from './models/note.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NoteService } from './services/note.service';
+import { provideHttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
-  imports: [FontAwesomeModule, NoteItemComponent,CommonModule, FormsModule],
+  imports: [FontAwesomeModule, NoteItemComponent, CommonModule, FormsModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
-  
   faCopy = faCopy;
   faPaste = faPaste;
   faTrash = faTrash;
 
-  // Sample notes
-  notes: Note[] = [
-    { id: 1, title: 'Angular Basics', content: 'Learn about components, modules, and services.', date: '03/23/2025' },
-    { id: 2, title: 'TypeScript Tips', content: 'Understand types, interfaces, and generics.', date: '03/24/2025' }
-  ];
-
-  removeNote(id: number) {
-    this.notes = this.notes.filter(note => note.id !== id);
-  }
+  
 
   text: string = ''; // Stores user input
   wordCount: number = 0;
@@ -36,15 +29,23 @@ export class AppComponent {
   // Function to count words, sentences, and characters
   updateCounts() {
     this.charCount = this.text.length; // Character count
-    this.wordCount = this.text.trim().split(/\s+/).filter(word => word.length > 0).length; // Word count
-    this.sentenceCount = this.text.split(/[.!?]/).filter(sentence => sentence.trim().length > 0).length; // Sentence count
+    this.wordCount = this.text
+      .trim()
+      .split(/\s+/)
+      .filter((word) => word.length > 0).length; // Word count
+    this.sentenceCount = this.text
+      .split(/[.!?]/)
+      .filter((sentence) => sentence.trim().length > 0).length; // Sentence count
   }
 
   // Copy text
   copyText() {
-    navigator.clipboard.writeText(this.text).then(() => {
-      alert('Text copied to clipboard!');
-    }).catch(err => console.error('Could not copy text: ', err));
+    navigator.clipboard
+      .writeText(this.text)
+      .then(() => {
+        alert('Text copied to clipboard!');
+      })
+      .catch((err) => console.error('Could not copy text: ', err));
   }
 
   // Paste text
@@ -66,10 +67,41 @@ export class AppComponent {
 
   title: string = '';
 
-  saveTitle() {
-    if (this.title) {
-      console.log('Title saved:', this.title);
-      // You can add your save logic here (e.g., make an API call)
+  notes: Note[] = []; // Empty initially, will be loaded from API
+
+  constructor(private noteService: NoteService) {}
+
+  ngOnInit() {
+    this.loadNotes(); // Fetch notes when component initializes
+  }
+
+  loadNotes() {
+    this.noteService.getNotes().subscribe((data) => {
+      this.notes = data;
+      console.log('Notes loaded:', this.notes); // Log the loaded notes
+    });
+  }
+
+  removeNote(id: number) {
+    this.noteService.deleteNote(id).subscribe(() => {
+      this.notes = this.notes.filter((note) => note._id !== id);
+    });
+  }
+  
+  saveNote() {
+    if (this.title.trim()) {
+      const newNote: Note = {
+        title: this.title,
+        content: this.text,
+        date: new Date().toLocaleDateString(),
+      };
+  
+      this.noteService.addNote(newNote).subscribe((savedNote) => {
+        this.notes.push(savedNote); // Add saved note to the UI
+        this.title = ''; // Clear the title input
+        this.text = ''; // Clear the textarea
+        this.updateCounts(); // Reset word/sentence count
+      });
     }
   }
 }

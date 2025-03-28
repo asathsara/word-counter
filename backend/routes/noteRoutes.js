@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     await Note.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Note deleted successfully" });
+    res.status(204).json({ message: "Note deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error });
   }
