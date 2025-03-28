@@ -9,8 +9,15 @@ import { Note } from '../../models/note.model';
 export class NoteItemComponent {
   @Input() note!: Note; // Receive a full Note object
   @Output() deleteNote = new EventEmitter<number>(); // Emit the note ID
+  @Output() selectNote = new EventEmitter<Note>(); // Emit the selected note
 
   onDelete() {
-    this.deleteNote.emit(this.note._id); // Emit the note's ID
+    if (this.note._id != null) {
+      this.deleteNote.emit(this.note._id); // Emit the note's ID
+    }
+  }
+
+  onSelect() {
+    this.selectNote.emit(this.note); // Emit the selected note
   }
 }

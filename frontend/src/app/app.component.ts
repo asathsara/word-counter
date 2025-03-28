@@ -19,8 +19,6 @@ export class AppComponent {
   faPaste = faPaste;
   faTrash = faTrash;
 
-  
-
   text: string = ''; // Stores user input
   wordCount: number = 0;
   sentenceCount: number = 0;
@@ -68,6 +66,7 @@ export class AppComponent {
   title: string = '';
 
   notes: Note[] = []; // Empty initially, will be loaded from API
+  editingNoteId: number | null = null; // Track the note being edited
 
   constructor(private noteService: NoteService) {}
 
@@ -90,18 +89,47 @@ export class AppComponent {
   
   saveNote() {
     if (this.title.trim()) {
-      const newNote: Note = {
-        title: this.title,
-        content: this.text,
-        date: new Date().toLocaleDateString(),
-      };
-  
-      this.noteService.addNote(newNote).subscribe((savedNote) => {
-        this.notes.push(savedNote); // Add saved note to the UI
-        this.title = ''; // Clear the title input
-        this.text = ''; // Clear the textarea
-        this.updateCounts(); // Reset word/sentence count
-      });
+      if (this.editingNoteId) {
+        // Update existing note
+        const updatedNote: Note = {
+          _id: this.editingNoteId,
+          title: this.title,
+          content: this.text,
+          date: new Date().toLocaleDateString(),
+        };
+
+        this.noteService.updateNote(updatedNote).subscribe(() => {
+          this.notes = this.notes.map((note) =>
+            note._id === this.editingNoteId ? updatedNote : note
+          );
+          this.clearInputs();
+        });
+      } else {
+        // Save new note
+        const newNote: Note = {
+          title: this.title,
+          content: this.text,
+          date: new Date().toLocaleDateString(),
+        };
+
+        this.noteService.addNote(newNote).subscribe((savedNote) => {
+          this.notes.push(savedNote);
+          this.clearInputs();
+        });
+      }
     }
+  }
+
+  selectNote(note: Note) {
+    this.title = note.title;
+    this.text = note.content;
+    this.editingNoteId = note._id ?? null; // Store the ID for updating or set to null if undefined
+  }
+
+  clearInputs() {
+    this.title = '';
+    this.text = '';
+    this.editingNoteId = null;
+    this.updateCounts(); // Reset counts
   }
 }

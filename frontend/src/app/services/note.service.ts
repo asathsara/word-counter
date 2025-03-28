@@ -20,6 +20,14 @@ export class NoteService {
   }
 
   // Update a note
+  updateNote(note: Note): Observable<Note> {
+    return this.http.put<Note>(
+      `http://localhost:5000/api/notes/${note._id}`,
+      note
+    );
+  }
+
+  // Delete a note
   deleteNote(id: number): Observable<Note> {
     return this.http.delete<Note>(`http://localhost:5000/api/notes/${id}`);
   }

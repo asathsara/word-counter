@@ -28,6 +28,24 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Update a note
+router.put("/:id", async (req, res) => {
+  try {
+    const note = await Note.findByIdAndUpdate(
+      req.params.id,
+      {
+        title: req.body.title,
+        content: req.body.content,
+        date: req.body.date,
+      },
+      { new: true }
+    );
+    res.status(204).json({message: "Note updated successfully", note});
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
+
 // Delete a note
 router.delete("/:id", async (req, res) => {
   try {
