@@ -1,0 +1,44 @@
+<div
+  class="flex justify-between items-center bg-gray-100 p-3 rounded-lg mb-3 mt-3"
+>
+  <!-- Words Count -->
+  <div class="flex flex-col items-center">
+    <p class="text-sm text-gray-500">Words</p>
+    <div class="flex items-center mt-1">
+      <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+      <span id="wordCount" class="text-gray-900 text-xl font-bold ml-2">{{
+        wordCount
+      }}</span>
+    </div>
+  </div>
+
+  <!-- Sentences Count -->
+  <div class="flex flex-col items-center">
+    <p class="text-sm text-gray-500">Sentences</p>
+    <div class="flex items-center mt-1">
+      <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+      <span id="sentenceCount" class="text-gray-900 text-xl font-bold ml-2">{{
+        sentenceCount
+      }}</span>
+    </div>
+  </div>
+
+  <!-- Characters Count -->
+  <div class="flex flex-col items-center">
+    <p class="text-sm text-gray-500">Characters</p>
+    <div class="flex items-center mt-1">
+      <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
+      <span id="charCount" class="text-gray-900 text-xl font-bold ml-2">{{
+        charCount
+      }}</span>
+    </div>
+  </div>
+</div>
+
+<!-- Textarea -->
+<textarea
+  [(ngModel)]="text"
+  (input)="updateCounts()"
+  placeholder="Enter text here..."
+  class="input w-full h-64 p-3 text-wrap"
+></textarea>

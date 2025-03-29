@@ -1,69 +1,28 @@
 import { Component } from '@angular/core';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCopy, faPaste, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NoteItemComponent } from './components/note-item/note-item.component';
 import { Note } from './models/note.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NoteService } from './services/note.service';
-import { provideHttpClient } from '@angular/common/http';
+import { CounterComponent } from "./components/counter/counter.component";
+import { ControlsComponent } from "./components/controls/controls.component";
 
 @Component({
   selector: 'app-root',
-  imports: [FontAwesomeModule, NoteItemComponent, CommonModule, FormsModule],
+  imports: [NoteItemComponent, CommonModule, FormsModule, CounterComponent, ControlsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  faCopy = faCopy;
-  faPaste = faPaste;
-  faTrash = faTrash;
+ 
 
   text: string = ''; // Stores user input
-  wordCount: number = 0;
-  sentenceCount: number = 0;
-  charCount: number = 0;
-
-  // Function to count words, sentences, and characters
-  updateCounts() {
-    this.charCount = this.text.length; // Character count
-    this.wordCount = this.text
-      .trim()
-      .split(/\s+/)
-      .filter((word) => word.length > 0).length; // Word count
-    this.sentenceCount = this.text
-      .split(/[.!?]/)
-      .filter((sentence) => sentence.trim().length > 0).length; // Sentence count
-  }
-
-  // Copy text
-  copyText() {
-    navigator.clipboard
-      .writeText(this.text)
-      .then(() => {
-        alert('Text copied to clipboard!');
-      })
-      .catch((err) => console.error('Could not copy text: ', err));
-  }
-
-  // Paste text
-  async pasteText() {
-    try {
-      const clipboardText = await navigator.clipboard.readText();
-      this.text += clipboardText; // Append the pasted text
-      this.updateCounts();
-    } catch (error) {
-      console.error('Failed to read clipboard: ', error);
-    }
-  }
-
-  // Clear text
-  clearText() {
-    this.text = '';
-    this.updateCounts();
-  }
-
   title: string = '';
+
+  onTextChange(newText: string) {
+    this.text = newText;
+    console.log('Text changed:', this.text); // Log the updated text
+  }
 
   notes: Note[] = []; // Empty initially, will be loaded from API
   editingNoteId: number | null = null; // Track the note being edited
@@ -88,7 +47,6 @@ export class AppComponent {
   }
   
   saveNote() {
-    if (this.title.trim()) {
       if (this.editingNoteId) {
         // Update existing note
         const updatedNote: Note = {
@@ -117,7 +75,6 @@ export class AppComponent {
           this.clearInputs();
         });
       }
-    }
   }
 
   selectNote(note: Note) {
@@ -130,6 +87,5 @@ export class AppComponent {
     this.title = '';
     this.text = '';
     this.editingNoteId = null;
-    this.updateCounts(); // Reset counts
   }
 }

@@ -18,15 +18,10 @@
       <div class="grid lg:grid-cols-6 gap-4 mt-6">
         <!-- Left Panel -->
         <div class="lg:block bg-white p-4 rounded-lg shadow col-span-1">
-          <button class="btn btn-soft btn-info w-full mb-2" (click)="copyText()">
-            <fa-icon [icon]="faCopy"></fa-icon> Copy
-          </button>
-          <button class="btn btn-soft btn-info w-full mb-2" (click)="pasteText()">
-            <fa-icon [icon]="faPaste"></fa-icon> Paste
-          </button>
-          <button class="btn btn-soft btn-info w-full" (click)="clearText()">
-            <fa-icon [icon]="faTrash"></fa-icon> Clear
-          </button>
+          <app-controls
+            [text]="text"
+            (textChange)="onTextChange($any($event))"
+          ></app-controls>
         </div>
 
         <!-- Middle Panel -->
@@ -39,69 +34,20 @@
               type="text"
               [(ngModel)]="title"
               placeholder="Enter Title..."
-              class="input w-full pr-16 p-3"
+              class="input w-full pr-20 p-3"
             />
             <button
               [hidden]="!title"
               (click)="saveNote()"
-              class=" btn btn-soft btn-info absolute right-2 top-1/2 transform -translate-y-1/2"
+              class="btn btn-info absolute right-4 top-1/2 -translate-y-1/2"
             >
               Save
             </button>
           </div>
-          
 
           <!-- Word, Sentence & Character Count -->
-          <div
-            class="flex justify-between items-center bg-gray-100 p-3 rounded-lg mb-3 mt-3"
-          >
-            <!-- Words Count -->
-            <div class="flex flex-col items-center">
-              <p class="text-sm text-gray-500">Words</p>
-              <div class="flex items-center mt-1">
-                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span
-                  id="wordCount"
-                  class="text-gray-900 text-xl font-bold ml-2"
-                  >{{ wordCount }}</span
-                >
-              </div>
-            </div>
-
-            <!-- Sentences Count -->
-            <div class="flex flex-col items-center">
-              <p class="text-sm text-gray-500">Sentences</p>
-              <div class="flex items-center mt-1">
-                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                <span
-                  id="sentenceCount"
-                  class="text-gray-900 text-xl font-bold ml-2"
-                  >{{ sentenceCount }}</span
-                >
-              </div>
-            </div>
-
-            <!-- Characters Count -->
-            <div class="flex flex-col items-center">
-              <p class="text-sm text-gray-500">Characters</p>
-              <div class="flex items-center mt-1">
-                <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
-                <span
-                  id="charCount"
-                  class="text-gray-900 text-xl font-bold ml-2"
-                  >{{ charCount }}</span
-                >
-              </div>
-            </div>
-          </div>
-
-          <!-- Textarea -->
-          <textarea
-            [(ngModel)]="text"
-            (input)="updateCounts()"
-            placeholder="Enter text here..."
-            class="input w-full h-64 p-3 text-wrap"
-          ></textarea>
+          <app-counter [text]="text"
+          (textChange)="onTextChange($any($event))"></app-counter>
         </div>
 
         <!-- Right Panel -->
