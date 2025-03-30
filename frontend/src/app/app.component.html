@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Word Counter</title>
   </head>
-  <body class="bg-gray-100 p-4 font-poppins h-screen">
+  <body class="bg-gray-100 p-4 font-poppins ">
     <div class="container mx-auto">
       <!-- Navbar -->
       <nav
@@ -28,30 +28,29 @@
         <div
           class="bg-white p-6 rounded-lg shadow flex flex-col lg:col-span-3 col-span-1"
         >
-          <!-- Title Input -->
-          <div class="relative w-full">
+          <div class="relative w-full border border-gray-300 rounded-lg flex">
             <input
               type="text"
               [(ngModel)]="title"
               placeholder="Enter Title..."
-              class="input w-full pr-20 p-3"
+              class="input w-full p-3 border-0 rounded-l-lg focus:outline-none"
             />
             <button
               [hidden]="!title"
               (click)="saveNote()"
-              class="btn btn-info absolute right-4 top-1/2 -translate-y-1/2"
+              class="btn btn-info  top-1/2 right-0 border-l border-gray-300 rounded-r-lg px-6"
             >
               Save
             </button>
           </div>
-
+          
           <!-- Word, Sentence & Character Count -->
           <app-counter [text]="text"
           (textChange)="onTextChange($any($event))"></app-counter>
         </div>
 
         <!-- Right Panel -->
-        <div class="bg-white p-4 rounded-lg shadow lg:col-span-2 col-span-1">
+        <div class="bg-white p-4 rounded-lg shadow lg:col-span-2 col-span-1 scroll-auto">
           <h3 class="text-lg font-bold">Notes</h3>
           <ul id="notesList" class="m-2 space-y-2">
             <li *ngFor="let note of notes" class="flex flex-col space-y-2">
